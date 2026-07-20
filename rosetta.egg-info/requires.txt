@@ -1,0 +1,14 @@
+ollama>=0.4.0
+
+[all]
+rosetta[mongo,neo4j,nlp]
+
+[mongo]
+pymongo>=4.0.0
+
+[neo4j]
+neo4j>=5.0.0
+
+[nlp]
+transformers>=4.40.0
+torch>=2.0.0

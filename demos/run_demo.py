@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Rosetta demo — demonstrates all three database backends without external servers.
+QueryAdapter demo — demonstrates all three database backends without external servers.
 
 Usage:
     python demos/run_demo.py
@@ -38,7 +38,7 @@ def info(key, val):
 
 def create_sqlite_db():
     """Create a temporary SQLite e-commerce database for the demo."""
-    db_path = tempfile.mktemp(suffix=".db", prefix="rosetta_demo_")
+    db_path = tempfile.mktemp(suffix=".db", prefix="queryadapter_demo_")
     cx = sqlite3.connect(db_path)
     cx.executescript("""
         CREATE TABLE customers (
@@ -106,9 +106,9 @@ def create_sqlite_db():
 # ─────────────────────────────────────────────────────────────
 def demo_sqlite():
     header("SQLITE — Full Text-to-SQL Pipeline")
-    from rosetta.nlp.normalizer import normalize_response
-    from rosetta.backends.discovery import get_discovery
-    from rosetta.backends.sqlite import build_and_execute
+    from queryadapter.nlp.normalizer import normalize_response
+    from queryadapter.backends.discovery import get_discovery
+    from queryadapter.backends.sqlite import build_and_execute
 
     db_path = create_sqlite_db()
     section("Schema Discovery")
@@ -159,7 +159,7 @@ def demo_sqlite():
 # ─────────────────────────────────────────────────────────────
 def demo_mongodb():
     header("MONGODB — MQL Aggregation Pipeline Construction")
-    from rosetta.backends.mongodb import build_mql_pipeline
+    from queryadapter.backends.mongodb import build_mql_pipeline
 
     section("Pipeline: filter + project + sort + limit")
     plan = {
@@ -211,7 +211,7 @@ def demo_mongodb():
 # ─────────────────────────────────────────────────────────────
 def demo_neo4j():
     header("NEO4J — Graph Schema + Query Stub")
-    from rosetta.ir.query_plan import QueryPlan, MatchPattern, OrderBy
+    from queryadapter.ir.query_plan import QueryPlan, MatchPattern, OrderBy
 
     section("Graph Schema (discovered when connected)")
     ok("labels: Customer, Order, Product, Category, Warehouse")
@@ -255,7 +255,7 @@ ORDER BY c.name ASC"""
 # ─────────────────────────────────────────────────────────────
 def demo_conversation():
     header("CONVERSATION — Multi-Turn Context + Intent Routing")
-    from rosetta.conversation.context import ConversationContext, classify_intent
+    from queryadapter.conversation.context import ConversationContext, classify_intent
 
     ctx = ConversationContext("demo", "sqlite", "db")
     section("Intent Classification")
@@ -306,8 +306,8 @@ def demo_architecture():
 
 # ─────────────────────────────────────────────────────────────
 def main():
-    print(f"\n{BOLD}Rosetta v1.0.0 — Natural Language → SQL · MQL · Cypher{RESET}")
-    print(f"  A two-tier NLP pipeline for structured database queries.\n")
+    print(f"\n{BOLD}QueryAdapter v0.1.0 — Natural Language → SQL · MQL · Cypher{RESET}")
+    print(f"  A multi-backend natural-language query pipeline.\n")
 
     demo_architecture()
     demo_sqlite()
@@ -317,13 +317,13 @@ def main():
 
     header("QUICK START")
     print("""
-  pip install -e /path/to/Rosetta
-  python cli.py path/to/any.db --interactive
+  pip install -e /path/to/QueryAdapter
+  queryadapter ask path/to/any.db "show all users"
 
-  from rosetta import run_pipeline
-  result = run_pipeline("show all users",
-      db_type="sqlite", connection_string="app.db")
-  print(result["results"])
+  from queryadapter import QueryAdapter
+  adapter = QueryAdapter("app.db")
+  result = adapter.ask("show all users")
+  print(result.data)
 """)
 
 

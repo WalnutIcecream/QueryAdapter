@@ -1,12 +1,13 @@
-# Core
+# Core (Ollama is the default provider)
 ollama>=0.4.0
 
-# NLP model (optional — fallback to Ollama if not installed)
-# transformers>=4.40.0
-# torch>=2.0.0
+# Optional database drivers
+# pymongo>=4.0.0      # MongoDB backend
+# neo4j>=5.0.0        # Neo4j backend
 
-# MongoDB backend (optional)
-# pymongo>=4.0.0
+# Optional providers
+# openai>=1.0.0       # OpenAI / OpenAI-compatible
+# anthropic>=0.30.0   # Anthropic
 
-# Neo4j backend (optional)
-# neo4j>=5.0.0
+# Optional testing
+# pytest>=8.0.0

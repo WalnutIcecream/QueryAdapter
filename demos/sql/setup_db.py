@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Seed a SQLite database for use with rosetta.
+"""Seed a SQLite database for use with queryadapter.
 
 Usage:
     python demos/sql/setup_db.py [output_path]
@@ -76,4 +76,4 @@ print(f"  products:  8 rows")
 print(f"  orders:    6 rows")
 print(f"  order_items: 9 rows")
 print()
-print(f"Try: rosetta {path} --interactive")
+print(f"Try: queryadapter ask {path} 'show customers from New York'")

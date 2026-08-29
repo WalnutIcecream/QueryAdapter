@@ -3,23 +3,28 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "rosetta"
-version = "1.0.0"
-description = "Natural Language to Database Query — English to SQL, MQL, or Cypher"
+name = "queryadapter"
+version = "0.1.0"
+description = "Natural-language querying for SQL, NoSQL, and graph databases"
 readme = "README.md"
 license = {text = "MIT"}
 authors = [
     {name = "WalnutIcecream"}
 ]
-keywords = ["nlp", "sql", "mongodb", "neo4j", "text-to-sql", "natural-language", "query"]
+keywords = ["nlp", "sql", "mongodb", "neo4j", "text-to-sql", "natural-language", "query", "llm"]
 classifiers = [
-    "Development Status :: 4 - Beta",
+    "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Database",
+    "Topic :: Database :: Front-Ends",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 
 requires-python = ">=3.11"
@@ -27,16 +32,38 @@ dependencies = [
     "ollama>=0.4.0",
 ]
 
+[project.urls]
+Homepage = "https://github.com/WalnutIcecream/QueryAdapter"
+Documentation = "https://github.com/WalnutIcecream/QueryAdapter#readme"
+Repository = "https://github.com/WalnutIcecream/QueryAdapter"
+Issues = "https://github.com/WalnutIcecream/QueryAdapter/issues"
+
 [project.optional-dependencies]
-nlp = ["transformers>=4.40.0", "torch>=2.0.0"]
-mongo = ["pymongo>=4.0.0"]
+# Database drivers
+sqlite = []
+mongodb = ["pymongo>=4.0.0"]
 neo4j = ["neo4j>=5.0.0"]
-all = [
-    "rosetta[nlp,mongo,neo4j]",
-]
+
+# Providers
+openai = ["openai>=1.0.0"]
+anthropic = ["anthropic>=0.30.0"]
+ollama = ["ollama>=0.4.0"]
+
+# Convenience bundles
+sql = ["queryadapter[sqlite]"]
+all-db = ["queryadapter[mongodb,neo4j]"]
+all-providers = ["queryadapter[openai,anthropic,ollama]"]
+all = ["queryadapter[mongodb,neo4j,openai,anthropic,ollama]"]
+
+# Testing
+test = ["pytest>=8.0.0"]
 
 [project.scripts]
-rosetta = "rosetta.cli:main"
+queryadapter = "queryadapter.cli:main"
 
 [tool.setuptools.packages.find]
-include = ["rosetta*"]
+include = ["queryadapter*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"

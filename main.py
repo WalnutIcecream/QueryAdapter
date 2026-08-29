@@ -1,10 +1,12 @@
-"""Backward-compatible entry point — delegates to the CLI module.
+"""Convenience entry point — delegates to the QueryAdapter CLI.
 
 Usage:
-    python main.py [db_path] --db-type <sqlite|mongodb|neo4j> [--interactive]
+    python main.py inspect DATABASE_URL
+    python main.py ask DATABASE_URL "Which customers spent the most?"
+    python main.py schema DATABASE_URL
 """
 
-from rosetta.cli import main
+from queryadapter.cli import main
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
